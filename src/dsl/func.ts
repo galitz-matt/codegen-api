@@ -4,7 +4,8 @@ import { Params } from "../ir/params";
 export function func(
     name: string,
     params: Params = [],
-    expose = false,
+    isExport = false,
+    isAsync = false,
     returnType = "void",
     body: Doc[]
 ): Doc {
@@ -13,7 +14,8 @@ export function func(
         open: renderFunctionSignature(
             name,
             params,
-            expose,
+            isExport,
+            isAsync,
             returnType
         ),
         body,
@@ -24,14 +26,19 @@ export function func(
 function renderFunctionSignature(
     name: string,
     params: Params,
-    expose: boolean,
+    isExport: boolean,
+    isAsync: boolean,
     returnType: string
 ): string {
-    return `${renderExport(expose)}function ${name}(${renderParams(params)}): ${returnType}`
+    return `${renderExport(isExport)}${renderAsync(isAsync)}function ${name}(${renderParams(params)}): ${returnType}`
 }
 
-function renderExport(expose: boolean): string {
-    return `${expose ? "export ": ""}`
+function renderExport(isExport: boolean): string {
+    return `${isExport ? "export ": ""}`;
+}
+
+function renderAsync(isAsync: boolean): string {
+    return `${isAsync ? "async ": ""}`;
 }
 
 function renderParams(params: Params): string {
