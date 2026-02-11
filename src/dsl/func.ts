@@ -1,5 +1,6 @@
 import { Doc } from "../ir/doc";
 import { Params } from "../ir/params";
+import { block } from "./block";
 
 export function func(
     name: string,
@@ -9,18 +10,16 @@ export function func(
     returnType = "void",
     body: Doc[]
 ): Doc {
-    return {
-        kind: "block",
-        open: renderFunctionSignature(
+    return block(
+        renderFunctionSignature(
             name,
             params,
             isExport,
             isAsync,
-            returnType
+            returnType,
         ),
-        body,
-        close: "}"
-    };
+        body
+    );
 }
 
 function renderFunctionSignature(
