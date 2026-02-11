@@ -11,11 +11,13 @@ function _render(doc: Doc, depth: number): string {
         case "block":
             return [
                 indent(doc.open, depth),
-                ...doc.body.map(d => _render(d, depth + 1)).join("\n"),
+                ...doc.body.map(d => _render(d, depth + 1)),
                 indent(doc.close, depth)
             ].join("\n")
         case "seq":
-            return doc.docs.map(d => _render(d, depth)).join("\n");
+            return doc.docs.map(d => {
+                return _render(d, depth)
+            }).join("\n");
     }
 }
 
