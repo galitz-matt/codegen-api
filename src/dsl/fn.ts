@@ -2,33 +2,33 @@ import { Doc } from "../ir/doc";
 import { Params } from "../ir/params";
 import { block } from "./block";
 
-type Options = {
-    isExport: boolean,
-    isAsync: boolean
-}
-
-const defaultOptions: Options = {
-    isExport: false,
-    isAsync: false
-}
-
-export function fn(
+type FnProps = {
     name: string,
-    params: Params = [],
-    body: Doc[],
-    returnType = "void",
-    options: Options = defaultOptions
-): Doc {
+    params?: Params,
+    returnType?: string,
+    isExport?: boolean,
+    isAsync?: boolean
+}
 
+/**
+ * 
+ * @param {FnProps} props - { name: string, params?: Param[], returnType?: string, isExport?: boolean, isAsync?: boolean }
+ * @param {Doc[]} body 
+ * @returns 
+ */
+export function fn(
+    props: FnProps,
+    ...body: Doc[]
+): Doc {
     return block(
         renderFunctionSignature(
-            name,
-            params,
-            options.isExport,
-            options.isAsync,
-            returnType,
+            props.name,
+            props.params ?? [],
+            props.isExport ?? false,
+            props.isAsync ?? false,
+            props.returnType ?? "void",
         ),
-        body
+        ...body
     );
 }
 
@@ -39,7 +39,7 @@ function renderFunctionSignature(
     isAsync: boolean,
     returnType: string
 ): string {
-    return `${renderExport(isExport)}${renderAsync(isAsync)}function ${name}(${renderParams(params)}): ${returnType}`
+    return `${renderExport(isExport)}${renderAsync(isAsync)}function ${name}(${renderParams(params)}): ${returnType} {`
 }
 
 function renderExport(isExport: boolean): string {
