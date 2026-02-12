@@ -12,7 +12,7 @@ export function cond(
     for (const b of branches) {
         if (b.kind === "when") whens.push(b);
         else if (b.kind === "default") def = b;
-        else throw new Error(`Incompatible branch type: ${b.kind}`);
+        else throw new Error(`Unexpected branch type: ${b.kind}`);
     }
 
     const [first, ...rest] = whens;
