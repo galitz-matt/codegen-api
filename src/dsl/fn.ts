@@ -2,20 +2,30 @@ import { Doc } from "../ir/doc";
 import { Params } from "../ir/params";
 import { block } from "./block";
 
+type Options = {
+    isExport: boolean,
+    isAsync: boolean
+}
+
+const defaultOptions: Options = {
+    isExport: false,
+    isAsync: false
+}
+
 export function fn(
     name: string,
     params: Params = [],
-    isExport = false,
-    isAsync = false,
+    body: Doc[],
     returnType = "void",
-    body: Doc[]
+    options: Options = defaultOptions
 ): Doc {
+
     return block(
         renderFunctionSignature(
             name,
             params,
-            isExport,
-            isAsync,
+            options.isExport,
+            options.isAsync,
             returnType,
         ),
         body
