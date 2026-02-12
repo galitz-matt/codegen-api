@@ -10,18 +10,15 @@ export function cond(
     const [first, ...rest] = branches;
 
     return seq(
-        block(
-            `if (${first.discriminator}) {`,
+        block(`if (${first.discriminator}) {`,
             first.body
         ),
         ...rest.map(b => 
-            block(
-                `else if (${b.discriminator}) {`,
+            block(`else if (${b.discriminator}) {`,
                 b.body
             )
         ),
-        block(
-            `else {`,
+        block(`else {`,
             otherwise.body
         )
     );
