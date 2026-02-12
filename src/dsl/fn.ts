@@ -2,7 +2,7 @@ import { Doc } from "../ir/doc";
 import { Params } from "../ir/params";
 import { block } from "./block";
 
-export function func(
+export function fn(
     name: string,
     params: Params = [],
     isExport = false,
