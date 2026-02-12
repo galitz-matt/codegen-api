@@ -4,7 +4,7 @@ import { block } from "./block";
 
 export function switchOn(
     expr: string,
-    branches: Branch[]
+    ...branches: Branch[]
 ): Doc {
     const cases: CaseBranch[] = [];
     let def: DefaultBranch | undefined;
