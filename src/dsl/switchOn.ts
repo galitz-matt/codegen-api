@@ -1,31 +1,27 @@
-import { Branch, DefaultBranch } from "../ir/branch";
+import { Branch, CaseBranch, DefaultBranch } from "../ir/branch";
 import { Doc } from "../ir/doc";
 import { block } from "./block";
 
 export function switchOn(
     expr: string,
-    cases: Branch[],
-    def?: DefaultBranch
+    branches: Branch[]
 ): Doc {
-    const body = [
-        ...cases.map(c =>
-            block(
-                `case ${c.discriminator}: {`,
-                c.body
-            )
-        )
-    ]
-    if (!!def) {
-        body.push(
-            block(
-                `default: {`,
-                def.body
-            )
-        );
+    const cases: CaseBranch[] = [];
+    let def: DefaultBranch | undefined;
+
+    for (const b of branches) {
+        if (b.kind === "case") cases.push(b);
+        else if (b.kind === "default") def = b;
+        else throw new Error(`Unexpected branch type: ${b.kind}`);
     }
 
-    return block(
-        `switch (${expr}) {`,
-        body
+    if (cases.length === 0)
+        throw new Error("switchOn requires at least one 'case' branch");
+
+    return block(`switch (${expr}) {`,
+        ...cases.map(c =>
+            block(`case ${c.value}: {`, ...c.body)
+        ),
+        ...(def ? [block("default: {", ...def.body)] : [])
     )
 }
