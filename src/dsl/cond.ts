@@ -5,10 +5,25 @@ import { seq } from "./seq";
 
 export function cond(
     branches: Branch[],
-    otherwise: DefaultBranch
+    otherwise?: DefaultBranch
 ): Doc {
     const [first, ...rest] = branches;
 
+    if (otherwise) {
+        return seq(
+            block(`if (${first.discriminator}) {`,
+                first.body
+            ),
+            ...rest.map(b => 
+                block(`else if (${b.discriminator}) {`,
+                    b.body
+                )
+            ),
+            block(`else {`, 
+                otherwise.body
+            )
+        );
+    }
     return seq(
         block(`if (${first.discriminator}) {`,
             first.body
@@ -17,9 +32,6 @@ export function cond(
             block(`else if (${b.discriminator}) {`,
                 b.body
             )
-        ),
-        block(`else {`,
-            otherwise.body
         )
     );
 }
