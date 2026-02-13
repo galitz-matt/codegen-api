@@ -1,4 +1,4 @@
-import { Doc } from "../ir/doc";
+import { Doc } from "./doc";
 
 export function seq(
     ...docs: Doc[]

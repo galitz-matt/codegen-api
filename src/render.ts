@@ -1,4 +1,4 @@
-import { Doc } from "./ir/doc";
+import { Doc } from "./layout/doc";
 
 export function render(doc: Doc): string {
     return _render(doc, 0);
