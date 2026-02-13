@@ -1,4 +1,4 @@
-import { Doc } from "./doc"
+import { Doc } from "../ir/doc"
 
 export type WhenBranch = Extract<Branch, { kind: "when" }>
 export type CaseBranch = Extract<Branch, { kind: "case" }>

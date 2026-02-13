@@ -1,21 +1,8 @@
 import { Doc } from "../ir/doc";
-import { Params } from "../ir/params";
+import { FnProps } from "../syntax/fn-props";
+import { Params } from "../syntax/params";
 import { block } from "./block";
 
-type FnProps = {
-    name: string,
-    params?: Params,
-    returnType?: string,
-    isExport?: boolean,
-    isAsync?: boolean
-}
-
-/**
- * 
- * @param {FnProps} props - { name: string, params?: Param[], returnType?: string, isExport?: boolean, isAsync?: boolean }
- * @param {Doc[]} body 
- * @returns 
- */
 export function fn(
     props: FnProps,
     ...body: Doc[]
