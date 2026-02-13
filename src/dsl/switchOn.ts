@@ -1,6 +1,6 @@
 import { Branch, CaseBranch, DefaultBranch } from "../syntax/branch";
-import { Doc } from "../ir/doc";
-import { block } from "./block";
+import { Doc } from "../layout/doc";
+import { block } from "../layout/block";
 
 export function switchOn(
     expr: string,

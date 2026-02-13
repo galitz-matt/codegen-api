@@ -1,5 +1,5 @@
 import { Branch } from "../syntax/branch"
-import { Doc } from "../ir/doc"
+import { Doc } from "../layout/doc"
 
 export function when(condition: string, ...body: Doc[]): Branch {
     return {

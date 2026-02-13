@@ -1,5 +1,5 @@
-import { Doc } from "../ir/doc";
-import { line } from "./line";
+import { Doc } from "../layout/doc";
+import { line } from "../layout/line";
 
 export function ret(value: string): Doc {
     return line(`return ${value};`);

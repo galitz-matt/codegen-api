@@ -1,7 +1,7 @@
-import { Doc } from "../ir/doc";
+import { Doc } from "../layout/doc";
 import { FnProps } from "../syntax/fn-props";
 import { Params } from "../syntax/params";
-import { block } from "./block";
+import { block } from "../layout/block";
 
 export function fn(
     props: FnProps,
