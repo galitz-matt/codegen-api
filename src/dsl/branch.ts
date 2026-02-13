@@ -1,4 +1,4 @@
-import { Branch } from "../ir/branch"
+import { Branch } from "../syntax/branch"
 import { Doc } from "../ir/doc"
 
 export function when(condition: string, ...body: Doc[]): Branch {

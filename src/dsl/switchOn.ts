@@ -1,4 +1,4 @@
-import { Branch, CaseBranch, DefaultBranch } from "../ir/branch";
+import { Branch, CaseBranch, DefaultBranch } from "../syntax/branch";
 import { Doc } from "../ir/doc";
 import { block } from "./block";
 
