@@ -1,4 +1,4 @@
-import { Param } from "../ir/params";
+import { Param } from "../syntax/params";
 
 export function param(
     name: string,
