@@ -18,10 +18,10 @@ export function switchOn(
     if (cases.length === 0)
         throw new Error("switchOn requires at least one 'case' branch");
 
-    return block(`switch (${expr}) {`,
+    return block(`switch (${expr})`,
         ...cases.map(c =>
-            block(`case ${c.value}: {`, ...c.body)
+            block(`case ${c.value}:`, ...c.body)
         ),
-        ...(def ? [block("default: {", ...def.body)] : [])
+        ...(def ? [block("default:", ...def.body)] : [])
     )
 }

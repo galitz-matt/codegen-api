@@ -10,7 +10,7 @@ function _render(doc: Doc, depth: number): string {
             return indent(doc.text, depth)
         case "block":
             return [
-                indent(doc.header, depth),
+                indent(doc.header + " {", depth),
                 ...doc.body.map(d => _render(d, depth + 1)),
                 indent("}", depth)
             ].join("\n")
