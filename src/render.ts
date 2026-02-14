@@ -1,24 +1,24 @@
-import { Doc } from "./layout/doc";
+import { Document } from "./layout/types";
 
-export function render(doc: Doc): string {
+export function render(doc: Document): string {
     return _render(doc, 0);
 }
 
-function _render(doc: Doc, depth: number): string {
-    switch (doc.kind) {
-        case "line":
-            return indent(doc.text, depth)
-        case "block":
-            return [
-                indent(doc.header + " {", depth),
-                ...doc.body.map(d => _render(d, depth + 1)),
-                indent("}", depth)
-            ].join("\n")
-        case "seq":
-            return doc.docs.map(d => {
-                return _render(d, depth)
-            }).join("\n");
-    }
+function _render(doc: Document, depth: number): string {
+    return doc.map(n => {
+        switch(n.kind) {
+            case "line": {
+                return indent(n.text, depth);
+            }
+            case "block": {
+                return [
+                    indent(n.open, depth),
+                    _render(n.body, depth + 1),
+                    indent(n.close, depth)
+                ].join("\n")
+            }
+        }
+    }).join("\n")
 }
 
 function indent(text: string, indent: number): string {

@@ -1,7 +1,7 @@
 import { Branch } from "../syntax/branch"
-import { Doc } from "../layout/doc"
+import { Document } from "../layout/types"
 
-export function when(condition: string, ...body: Doc[]): Branch {
+export function when(condition: string, ...body: Document): Branch {
     return {
         kind: "when",
         condition,
@@ -9,7 +9,7 @@ export function when(condition: string, ...body: Doc[]): Branch {
     }
 }
 
-export function caseOf(value: string, ...body: Doc[]): Branch {
+export function caseOf(value: string, ...body: Document): Branch {
     return {
         kind: "case",
         value,
@@ -17,7 +17,7 @@ export function caseOf(value: string, ...body: Doc[]): Branch {
     }
 }
 
-export function otherwise(...body: Doc[]): Branch {
+export function otherwise(...body: Document): Branch {
     return {
         kind: "default",
         body

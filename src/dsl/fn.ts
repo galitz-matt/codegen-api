@@ -1,12 +1,12 @@
-import { Doc } from "../layout/doc";
+import { Block, Document } from "../layout/types";
 import { FnProps } from "../syntax/fn-props";
 import { Params } from "../syntax/params";
-import { block } from "../layout/block";
+import { block } from "../layout/builders";
 
 export function fn(
     props: FnProps,
-    ...body: Doc[]
-): Doc {
+    ...body: Document
+): Block {
     return block(
         renderFunctionSignature(
             props.name,
@@ -15,7 +15,8 @@ export function fn(
             props.isAsync ?? false,
             props.returnType ?? "void",
         ),
-        ...body
+        body,
+        "}",
     );
 }
 

@@ -1,20 +1,16 @@
-import { Doc } from "../layout/doc";
-import { block } from "../layout/block";
+import { Block, Document } from "../layout/types";
+import { block } from "../layout/builders";
 
 export function forLoop(
     iterator: string,
-    ...body: Doc[]
-): Doc {
-    return block(`for (${iterator})`, 
-        ...body
-    );
+    ...body: Document
+): Block {
+    return block(`for (${iterator})`, body, "}");
 }
 
 export function whileLoop(
     condition: string,
-    body: Doc[]
-): Doc {
-    return block(`while (${condition})`,
-        ...body
-    );
+    body: Document
+): Block {
+    return block(`while (${condition})`, body, "}")
 }

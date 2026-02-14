@@ -1,4 +1,4 @@
-import { Doc } from "../layout/doc"
+import { Document } from "../layout/types"
 
 export type WhenBranch = Extract<Branch, { kind: "when" }>
 export type CaseBranch = Extract<Branch, { kind: "case" }>
@@ -8,14 +8,14 @@ export type Branch =
 | {
     kind: "when";
     condition: string;
-    body: Doc[];
+    body: Document;
 }
 | {
     kind: "case";
     value: string;
-    body: Doc[];
+    body: Document;
 }
 | {
     kind: "default";
-    body: Doc[];
+    body: Document;
 }

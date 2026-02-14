@@ -1,6 +1,6 @@
-import { Doc } from "../layout/doc";
-import { line } from "../layout/line";
+import { Document, Line } from "../layout/types";
+import { line } from "../layout/builders";
 
-export function ret(value: string): Doc {
+export function ret(value: string): Line {
     return line(`return ${value};`);
 }
