@@ -27,7 +27,7 @@ function renderFunctionSignature(
     isAsync: boolean,
     returnType: string
 ): string {
-    return `${renderExport(isExport)}${renderAsync(isAsync)}function ${name}(${renderParams(params)}): ${returnType}`
+    return `${renderExport(isExport)}${renderAsync(isAsync)}function ${name}(${renderParams(params)}): ${returnType} {`
 }
 
 function renderExport(isExport: boolean): string {
