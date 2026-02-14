@@ -4,5 +4,5 @@ export type Seq = Extract<Doc, {kind: "block" }>
 
 export type Doc =
     | { kind: "line", text: string }
-    | { kind: "block", open: string, body: Doc[], close: string }
+    | { kind: "block", header: string, body: Doc[] }
     | { kind: "seq", docs: Doc[] }

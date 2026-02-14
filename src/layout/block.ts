@@ -6,8 +6,7 @@ export function block(
 ): Doc {
     return {
         kind: "block",
-        open,
-        body,
-        close: "}"
+        header: open,
+        body
     }
 }
