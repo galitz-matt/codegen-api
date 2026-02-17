@@ -1,4 +1,4 @@
-import { Block, Document } from "../layout/types";
+import { Block, Document } from "../layout/ir";
 import { block } from "../layout/factories";
 
 export function forLoop(

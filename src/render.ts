@@ -1,4 +1,4 @@
-import { Document } from "./layout/types";
+import { Document } from "./layout/ir";
 
 export function render(doc: Document): string {
     return _render(doc, 0);

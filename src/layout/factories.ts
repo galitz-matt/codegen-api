@@ -1,4 +1,4 @@
-import { Line, Node, Block, Document } from "./types";
+import { Line, Node, Block, Document } from "./ir";
 
 export function document(...nodes: Node[]): Document {
     return nodes;

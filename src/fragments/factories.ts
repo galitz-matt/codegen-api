@@ -1,4 +1,4 @@
-import { Document } from "../layout/types"
+import { Document } from "../layout/ir"
 import { 
     CaseBranch, 
     DefaultBranch, 

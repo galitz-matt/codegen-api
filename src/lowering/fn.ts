@@ -1,4 +1,4 @@
-import { Document, Node } from "../layout/types";
+import { Document, Node } from "../layout/ir";
 import { FnSignature } from "../fragments/types";
 import { block } from "../layout/factories";
 

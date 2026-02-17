@@ -1,4 +1,4 @@
-import { Document } from "../layout/types"
+import { Document } from "../layout/ir"
 
 export type Params = Param[]
 export type Param = 
