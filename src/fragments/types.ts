@@ -20,13 +20,7 @@ export type Param =
 }
 
 
-export type FnSignature = {
-    name: string,
-    params?: Params,
-    returnType?: string,
-    isExport?: boolean,
-    isAsync?: boolean
-}
+export type FnSignature = string
 
 export type WhenBranch = Extract<Branch, { kind: "when" }>
 export type CaseBranch = Extract<Branch, { kind: "case" }>

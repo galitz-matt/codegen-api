@@ -3,7 +3,9 @@ import {
     CaseBranch, 
     DefaultBranch, 
     WhenBranch,
-    Param
+    Param,
+    Params,
+    FnSignature
 } from "./types"
 
 export function when(condition: string, ...body: Document): WhenBranch {
@@ -62,4 +64,33 @@ export function optionalParam(
         name,
         type
     }
+}
+
+export function fnSignature(props: {
+    name: string,
+    params?: Params,
+    returnType?: string,
+    isExport?: boolean,
+    isAsync?: boolean
+}): FnSignature {
+    const exportPart = props.isExport ? "export " : "";
+    const asyncPart = props.isAsync ? "async " : "";
+    const returnTypePart = props.returnType ?? "void";
+    const paramsPart = props.params?.map(p => {
+        const builder = [];
+        builder.push(p.name);
+
+        if (p.kind === "optional") {
+            builder.push("?");
+        }
+        builder.push(": ");
+        builder.push(p.type);
+        if (p.kind === "default") {
+            builder.push(` = ${p.default}`);
+        }
+        
+        return builder.join("");
+    }).join(", ");
+
+    return `${exportPart}${asyncPart}function ${props.name}(${paramsPart}): ${returnTypePart}`;
 }
