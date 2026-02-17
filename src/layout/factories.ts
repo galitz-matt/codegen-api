@@ -5,15 +5,14 @@ export function document(...nodes: Node[]): Document {
 }
 
 export function block(
-    open: string,
+    header: string,
     body: Node[],
-    close: string,
 ): Block {
     return {
         kind: "block",
-        open,
+        open: header + " {",
         body,
-        close
+        close: "}"
     }
 }
 

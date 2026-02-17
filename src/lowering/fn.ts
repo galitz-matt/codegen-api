@@ -1,7 +1,7 @@
 import { Block, Document } from "../layout/types";
 import { FnProps } from "../syntax/fn-props";
 import { Params } from "../syntax/params";
-import { block } from "../layout/builders";
+import { block } from "../layout/factories";
 
 export function fn(
     props: FnProps,
@@ -16,7 +16,6 @@ export function fn(
             props.returnType ?? "void",
         ),
         body,
-        "}",
     );
 }
 
