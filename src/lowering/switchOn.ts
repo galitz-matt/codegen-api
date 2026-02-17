@@ -1,10 +1,8 @@
-import { Branch, CaseBranch, DefaultBranch } from "../syntax/branch";
-import { Block } from "../layout/types";
-import { block } from "../layout/factories";
+import { Branch } from "../fragments/types";
 
 export function switchOn(
     expr: string,
     ...branches: Branch[]
-): Block {
+): Document {
 
 }

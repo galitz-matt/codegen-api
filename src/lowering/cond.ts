@@ -1,4 +1,4 @@
-import { Branch, DefaultBranch, WhenBranch } from "../syntax/branch";
+import { WhenBranch, DefaultBranch } from "../fragments/types";
 import { Document } from "../layout/types";
 
 export function cond(

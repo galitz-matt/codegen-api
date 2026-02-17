@@ -1,22 +1,24 @@
 import { Block, Document } from "../layout/types";
-import { FnProps } from "../syntax/fn-props";
-import { Params } from "../syntax/params";
+import { FnSignature } from "../fragments/types";
+import { Params } from "../fragments/types";
 import { block } from "../layout/factories";
 
 export function fn(
-    props: FnProps,
-    ...body: Document
-): Block {
-    return block(
-        renderFunctionSignature(
-            props.name,
-            props.params ?? [],
-            props.isExport ?? false,
-            props.isAsync ?? false,
-            props.returnType ?? "void",
-        ),
-        body,
-    );
+    props: FnSignature,
+    body: Document
+): Document {
+    return [ 
+        block(
+            renderFunctionSignature(
+                props.name,
+                props.params ?? [],
+                props.isExport ?? false,
+                props.isAsync ?? false,
+                props.returnType ?? "void",
+            ),
+            body,
+        )
+    ]
 }
 
 function renderFunctionSignature(
