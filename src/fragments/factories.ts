@@ -1,4 +1,4 @@
-import { Document } from "../layout/ir"
+import { Node } from "../layout/ir"
 import { 
     CaseBranch, 
     DefaultBranch, 
@@ -8,7 +8,7 @@ import {
     FnSignature
 } from "./types"
 
-export function when(condition: string, ...body: Document): WhenBranch {
+export function when(condition: string, ...body: Node[]): WhenBranch {
     return {
         kind: "when",
         condition,
@@ -16,7 +16,7 @@ export function when(condition: string, ...body: Document): WhenBranch {
     }
 }
 
-export function caseOf(value: string, ...body: Document): CaseBranch {
+export function caseOf(value: string, ...body: Node[]): CaseBranch {
     return {
         kind: "case",
         value,
@@ -24,7 +24,7 @@ export function caseOf(value: string, ...body: Document): CaseBranch {
     }
 }
 
-export function otherwise(...body: Document): DefaultBranch {
+export function otherwise(...body: Node[]): DefaultBranch {
     return {
         kind: "default",
         body

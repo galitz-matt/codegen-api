@@ -1,125 +1,193 @@
-# NAME TBD
+# Name TBD
 
 ## Problem Statement
-Programmatic generation of TS source code is frequently implemented using string construction. This approach conflates layout management with syntax construction, resulting in fragile formatting logic and limited composability.
 
-This project introduces a minimal structural layout representation that decouples nesting and indentation from surface syntax assembly, and TS-specific builders lower semantic fragments into layout primitives.
+Programmatic generation of TS source code is commonly implemented via string concatenation. This approach does not scale well with complexity. Particularly, this approach:
+* conflates layoutmanagement with surface syntax construction
+* requires manual depth tracking
+* introduces fragile formatting logic
 
-## Scope
-This system guarantees structural layout correctness.
-It does not guarantee syntactic or semantic correctness of TS.
+This project introduces a minimal structural layout algebra that models document nesting explicitly. 
 
-## Definitions
+## Algebra of Layout
 
 ### Preliminaries
-* Let $String$ be the set of all TS strings
-* Let $List(Node)$ be the set of all lists of layout tree nodes
+Let:
+* $String$ be the set of all strings
+* $List(X)# denote ordered finite lists over set $X$
 
-### Def'n 1: Layout Tree
-A layout tree is a finite ordered tree whose nodes represent layout units of a document.
+### Def'n 1: Layout Node
+A layout node is defined inductively as
 
-Each node is one of:
-1. A line
-2. A block
-3. A sequence
-
-### Def'n 2: Line
-A line is a node defined as:
-
-$$Line(s)$$ 
-
-where: 
-* $s \in String$
-
-A line is:
-* atomic
-* has no children
-
-It is a leaf in the layout tree
-
-### Def'n 3: Block
-A block is a node defined as:
-
-
-$$Block(open, body, close)$$
+$$Node := Line(s) | Block(open, body, close) | Seq(nodes)$$
 
 where:
+* $s \in String$
 * $open, close \in String$
 * $body \in List(Node)$
+* $nodes \in List(Node)$
 
-A block introduces structural nesting. The body is rendered at one greater indentation depth than the block itself.
+We define $Line(s)$, $Block(open, body, close)$, $Seq(nodes)$ below
 
-*Note:* Indentation is not intrinsic to the node, it is a rendering concern
+### Def'n 2: Line
+$$Line(s)$$
 
-### Def'n 4: Document
-A document is an ordered list of layout nodes:
+A $Line$ represents a single text unit rendered at a given indentation depth.
+It is a leaf in the layout tree.
 
-$$Document := List(Node)$$
+### Def'n 3: Block
+$$Block(open, body, close)$$
 
-A document represents the root of the layout tree (or subtree)
+A $Block$ introduces structurual nesting. Its body is rendered at indentation depth $d + 1$, its delimiters ($open$, $close$) at depth $d$
 
-*Note:* The root is not itself a $Node$. It is a sequence of sibling nodes rendered at indentation depth 0.
+### Def'n 4: Seq
+$$Seq(nodes)$$
+
+A $Seq$ represents ordered sibling composition. It does not introduce indentation; each child is rendered at the same depth.
+
+### Def'n 5: Document
+A $Document$ is defined as:
+
+$$Document := Node$$
+
+In practice, a file is represented as:
+
+$$Seq(nodes)$$
+
+The root is simply a $Node$.
+This ensures the layout algebra is closed which enables composability which we see below.
 
 ### Def'n 5: Rendering
 Let:
 
-$$render : Document \times \N \rightarrow String$$
+$$render: Node x \N \rightarrow String$$
 
-be a total function defined recursively.
+where the second argument denotes indentation depth.
+Let `indent(d)` denote a string consisting of `d` tab characters.
 
-Let $indent(d)$ denote a string consisting of $d$ tab characters.
-
-Then:
-
-#### Line case
+**Line**
 $$render(Line(s), d) = indent(d) + s$$
 
-#### Block case
+**Block**
 $$
 render(Block(open, body, close), d) =\\
-indent(d) + open\\
-+ newline\\
-+ render(body, d + 1)\\
-+ newline \\
-+ indent(d) + close
+    indent(d) + open\\
+    + newline\\
+    render(body, d+1)\\
+    + newline\\
+    indent(d) + close
 $$
 
-#### Document case
+**Seq**
 $$
-render(Document(nodes)) =\\
+render(Seq(nodes), d) =\\
     join(render(n, d) \text{ for each } n \in nodes \text{ with newline})
 $$
 
-## Def'n 6: Surface Syntax Fragment
-Let $TSFragment$ denote a structured representation of a TS surface construct
+Rendering derives indentation from structural depth.
 
+## Lowering
+
+### Def'n 6: Surface Syntax Fragment
+A surface syntax fragment represents a TS construct at a semantic level.
 Examples include:
 * Function declarations
-* Conditional branches
+* Conditional chains
 * Loop constructs
 * Parameter lists
 
-TSFragment is a semantic  description of a construct
+Fragments describe semantic structure.
 
-## Def'n 7: Lowering
-A lowering function is a total function of the form
+### Def'n 7:
+A lowering function is a total function:
 
-$$lower_C : C \rightarrow Document$$
+$$ lower_C: C \rightarrow Node $$
 
 where:
-* $C$ is a TypeScript surface construct
-* The output is a $Document$
-* Lowering **does not** perform rendering
+* C is a TS surface construct.
 
-**Example**
-$$forLoop: String \times Document \right Document$$
+* The output is a layout $Node$
 
-## Invariants
-For all layout trees:
-1. The tree is finite
-2. All children of a $Block$ are rendered at depth + 1
-3. Indentation depth is derived from tree depth, not stored
-4. Every $Block$ has exactly one opening and closing delimiter
-5. Rendering is deterministic
-6. Every TS construct lowers to a $Document$
+Lowering encodes surface syntax into layout nodes.
 
+## Design Considerations
+
+### Structural Closure
+The layout algebra must be closed under lowering.
+
+Formally:
+
+$$\forall C, \exists lower_C : C \rightarrow Node$$
+
+This requirement motivated the inclusion of $Seq$
+
+Without $Seq$, certain constructs (e.g. if-chains) would lower to multiple sibling nodes, breaking closure.
+
+$Seq$ serves as the composition operator that ensures:
+
+$$ Node \times Node \rightarrow Node$$
+
+### Why Closure is Useful (in practice)
+Recall, closure in this context means:
+
+every lowering function returns a $Node$
+
+Formally:
+$$lower_C: C \rightarrow Node$$
+
+This ensures every construct is composable.
+
+Without closure some lowering functions return `Node`, others `Node[]`
+
+We illustrate why this is problematic with an example:
+
+Suppose we have the lowering function `ifChain` which lowers to multiple sibling blocks representing the branches:
+
+```typescript
+if (x) { ... }
+else if (y) { ... }
+else { ... }
+```
+
+Without $Seq$, `ifChain` must return `Node[]`. Now our lowering functions must handle two shapes, which forces spreads, flattening and special cases which is bad for ergonomics.
+
+Composition would look like:
+
+```typescript
+fn(signature,
+    line("..."),
+    ...ifChain(...),
+)
+```
+
+The user must know that `ifChain` returns many which is leaky.
+With `Seq`, `ifChain` returns:
+
+```typescript
+seq(
+    block(if ...),
+    block(else if ...),
+    block(else ...)
+)
+```
+which is `Node`. Composition is now uniform:
+
+```typescript
+fn(sig,
+    line("..."),
+    ifChain(...)
+)
+```
+
+The user is free to compose structures without thinking about underlying representation.
+
+## Guarantees
+The system guarantees
+* Proper indentation
+* Proper nesting
+* Determinstic formatting
+
+It does not validate
+* Type correctness
+* TS grammar correctness
+* Semantic validity
