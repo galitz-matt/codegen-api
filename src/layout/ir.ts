@@ -10,9 +10,15 @@ export type Block = {
     close: string;
 }
 
+export type Seq = {
+    kind: "seq";
+    nodes: Node[];
+}
+
 export type Node = 
     | Line 
     | Block
+    | Seq
 
 
 export type Document = Node[]
