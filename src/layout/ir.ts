@@ -6,7 +6,7 @@ export type Line = {
 export type Block = { 
     kind: "block"; 
     open: string; 
-    body: Document;
+    body: Node[];
     close: string;
 }
 

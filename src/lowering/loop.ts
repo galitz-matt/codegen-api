@@ -3,14 +3,14 @@ import { block } from "../layout/factories";
 
 export function forLoop(
     iterator: string,
-    body: Node[]
+    ...body: Node[]
 ): Node {
-    return block(`for (${iterator})`, body);
+    return block(`for (${iterator})`, ...body);
 }
 
 export function whileLoop(
     condition: string,
     body: Node[]
 ): Node {
-    return block(`while (${condition})`, body)
+    return block(`while (${condition})`, ...body)
 }
