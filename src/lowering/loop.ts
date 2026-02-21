@@ -1,20 +1,16 @@
-import { Block, Document } from "../layout/ir";
+import { Block, Document, Node } from "../layout/ir";
 import { block } from "../layout/factories";
 
 export function forLoop(
     iterator: string,
-    body: Document
-): Document {
-    return [
-        block(`for (${iterator})`, body)
-    ]
+    body: Node[]
+): Node {
+    return block(`for (${iterator})`, body);
 }
 
 export function whileLoop(
     condition: string,
-    body: Document
-): Document {
-    return [
-        block(`while (${condition})`, body)
-    ]
+    body: Node[]
+): Node {
+    return block(`while (${condition})`, body)
 }
