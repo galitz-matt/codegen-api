@@ -1,4 +1,4 @@
-import { Line, Node, Block, Document, Seq } from "./ir";
+import { Line, Node, Block, Seq } from "./ir";
 
 export function block(
     header: string,
