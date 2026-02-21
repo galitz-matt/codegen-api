@@ -5,22 +5,20 @@ export function render(doc: Document): string {
 }
 
 function _render(doc: Document, depth: number): string {
-    return doc.map(n => {
-        switch(n.kind) {
-            case "line": {
-                return indent(n.text, depth);
-            }
-            case "block": {
-                return [
-                    indent(n.open, depth),
-                    _render(n.body, depth + 1),
-                    indent(n.close, depth)
-                ].join("\n")
-            }
-        }
-    }).join("\n")
+    switch (doc.kind) {
+        case "line":
+            return indent(depth) + doc.text;
+        case "block":
+            return [
+                indent(depth) + doc.open,
+                ...doc.body.map(n => _render(n, depth + 1)),
+                indent(depth) + doc.close
+            ].join("\n");
+        case "seq":
+            return doc.nodes.map(n => _render(n, depth)).join("\n");
+    }
 }
 
-function indent(text: string, indent: number): string {
-    return "\t".repeat(indent) + text;
+function indent(indent: number): string {
+    return "\t".repeat(indent);
 }
