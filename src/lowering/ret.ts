@@ -1,8 +1,6 @@
-import { Document, Line } from "../layout/ir";
+import { Node } from "../layout/ir";
 import { line } from "../layout/factories";
 
-export function ret(value: string): Document {
-    return [
-        line(`return ${value};`)
-    ]
+export function ret(value: string): Node {
+    return line(`return ${value};`);
 }
