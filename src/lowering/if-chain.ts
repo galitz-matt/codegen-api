@@ -1,11 +1,10 @@
 import { WhenBranch, DefaultBranch } from "../fragments/types";
 import { block, seq } from "../layout/factories";
 import { Node } from "../layout/ir";
-import { render } from "../render";
 
 export function ifChain(
     first: WhenBranch,
-    ...rest: [...WhenBranch[], DefaultBranch]
+    ...rest: [...WhenBranch[], DefaultBranch] | WhenBranch[] | []
 ): Node {
     return seq(
         block(`if (${first.condition})`, 
