@@ -7,6 +7,6 @@ export function fn(
     ...body: Node[]
 ): Node {
     return block(signature,
-        body
+        ...body
     )
 }
