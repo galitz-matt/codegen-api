@@ -1,9 +1,9 @@
 import { WhenBranch, DefaultBranch } from "../fragments/types";
-import { Document } from "../layout/ir";
+import { Node } from "../layout/ir";
 
-export function cond(
+export function ifChain(
     first: WhenBranch,
     ...rest: [...WhenBranch[], DefaultBranch]
-): Document {
+): Node {
 
 }
