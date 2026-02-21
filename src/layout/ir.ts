@@ -21,4 +21,4 @@ export type Node =
     | Seq
 
 
-export type Document = Node[]
+export type Document = Node
