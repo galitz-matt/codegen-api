@@ -1,4 +1,4 @@
-import { Document } from "../layout/ir"
+import { Node } from "../layout/ir"
 
 export type Params = Param[]
 export type Param = 
@@ -22,21 +22,21 @@ export type Param =
 
 export type FnSignature = string
 
-export type WhenBranch = Extract<Branch, { kind: "when" }>
-export type CaseBranch = Extract<Branch, { kind: "case" }>
-export type DefaultBranch = Extract<Branch, { kind: "default" }> 
-export type Branch = 
-| {
+export type WhenBranch = {
     kind: "when";
     condition: string;
-    body: Document;
+    body: Node[];
 }
-| {
+export type CaseBranch = {
     kind: "case";
     value: string;
-    body: Document;
+    body: Node[];
 }
-| {
+export type DefaultBranch = {
     kind: "default";
-    body: Document;
+    body: Node[];
 }
+export type Branch =
+    | WhenBranch
+    | CaseBranch
+    | DefaultBranch
