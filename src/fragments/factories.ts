@@ -4,10 +4,14 @@ import {
     DefaultBranch, 
     WhenBranch,
     Param,
-    Params,
-    FnSignature
+    FnSignature,
+    RestParam,
+    OptionalParam,
+    DefaultParam,
+    StdParam,
 } from "./types"
 
+//#region branches
 export function when(condition: string, ...body: Node[]): WhenBranch {
     return {
         kind: "when",
@@ -30,11 +34,19 @@ export function otherwise(...body: Node[]): DefaultBranch {
         body
     }
 }
+//#endregion
 
-export function param(
+//#region params
+export function params(
+    ...paramList: Param[]
+): Param[] {
+    return paramList;
+}
+
+export function stdParam(
     name: string,
     type: string
-): Param {
+): StdParam {
     return {
         kind: "std",
         name,
@@ -46,7 +58,7 @@ export function defaultParam(
     name: string,
     type: string,
     def: string,
-): Param {
+): DefaultParam {
     return {
         kind: "default",
         name,
@@ -58,7 +70,7 @@ export function defaultParam(
 export function optionalParam(
     name: string,
     type: string,
-): Param {
+): OptionalParam {
     return {
         kind: "optional",
         name,
@@ -66,31 +78,43 @@ export function optionalParam(
     }
 }
 
+export function restParam(
+    name: string,
+    type: string
+): RestParam {
+    return {
+        kind: "rest",
+        name,
+        type
+    };
+}
+//#endregion
+
+
 export function fnSignature(props: {
     name: string,
-    params?: Params,
+    params?: Param[],
     returnType?: string,
     isExport?: boolean,
-    isAsync?: boolean
+    isAsync?: boolean,
+    newlineDelimiter?: boolean
 }): FnSignature {
     const exportPart = props.isExport ? "export " : "";
     const asyncPart = props.isAsync ? "async " : "";
     const returnTypePart = props.returnType ?? "void";
+    const delimiter = props.newlineDelimiter ? ",\n" : ", ";
     const paramsPart = props.params?.map(p => {
         const builder = [];
-        builder.push(p.name);
 
-        if (p.kind === "optional") {
-            builder.push("?");
-        }
+        if (p.kind === "rest") builder.push("...");
+        builder.push(p.name);
+        if (p.kind === "optional") builder.push("?");
         builder.push(": ");
         builder.push(p.type);
-        if (p.kind === "default") {
-            builder.push(` = ${p.default}`);
-        }
+        if (p.kind === "default") builder.push(` = ${p.default}`)
         
         return builder.join("");
-    }).join(", ");
+    }).join(delimiter);
 
     return `${exportPart}${asyncPart}function ${props.name}(${paramsPart}): ${returnTypePart}`;
 }
