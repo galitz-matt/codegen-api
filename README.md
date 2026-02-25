@@ -60,7 +60,7 @@ This ensures the layout algebra is closed which enables composability which we s
 ### Def'n 5: Rendering
 Let:
 
-$$render: Node x \N \rightarrow String$$
+$$render: Node \times \N \rightarrow String$$
 
 where the second argument denotes indentation depth.
 Let `indent(d)` denote a string consisting of `d` tab characters.
