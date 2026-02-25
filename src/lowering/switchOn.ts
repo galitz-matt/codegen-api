@@ -1,11 +1,10 @@
-import { caseOf, otherwise } from "../fragments/factories";
-import { Branch, CaseBranch, DefaultBranch } from "../fragments/types";
+import { CaseBranch, DefaultBranch } from "../fragments/types";
 import { block } from "../layout/factories";
 import { Node } from "../layout/ir";
 
 export function switchOn(
     expr: string,
-    ...branches: [...CaseBranch[], DefaultBranch] | CaseBranch[] | []
+    ...branches: [...CaseBranch[], DefaultBranch] | CaseBranch[] | [DefaultBranch] | []
 ): Node {
     return block(expr,
         ...branches.map(b => {
