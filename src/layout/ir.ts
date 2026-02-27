@@ -20,5 +20,4 @@ export type Node =
     | Block
     | Seq
 
-
 export type Document = Node

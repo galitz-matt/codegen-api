@@ -1,5 +1,5 @@
 import { WhenBranch, DefaultBranch } from "../fragments/types";
-import { block, seq } from "../layout/factories";
+import { braceBlock, seq } from "../layout/factories";
 import { Node } from "../layout/ir";
 
 export function ifChain(
@@ -7,17 +7,17 @@ export function ifChain(
     ...rest: [...WhenBranch[], DefaultBranch] | WhenBranch[] | []
 ): Node {
     return seq(
-        block(`if (${first.condition})`, 
+        braceBlock(`if (${first.condition})`, 
             ...first.body
         ),
         ...rest.map(b => {
             switch (b.kind) {
                 case "when":
-                    return block(`else if (${b.condition})`,
+                    return braceBlock(`else if (${b.condition})`,
                         ...b.body
                     );
                 case "default":
-                    return block(`else`,
+                    return braceBlock(`else`,
                         ...b.body
                     );
             }
