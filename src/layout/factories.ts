@@ -20,7 +20,7 @@ export function line(text: string): Line {
     }
 }
 
-export function seq(...nodes: Node[]): Seq {
+export function seq(...nodes: (Line | Block)[]): Seq {
     return {
         kind: "seq",
         nodes
