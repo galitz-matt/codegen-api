@@ -20,7 +20,7 @@ export function line(text: string): Line {
     }
 }
 
-export function seq(...nodes: (Line | Block)[]): Seq {
+export function seq(...nodes: Node[]): Seq {
     return {
         kind: "seq",
         nodes
@@ -37,5 +37,21 @@ export function braceBlock(
         body,
         "}"
     )
+}
+
+export function prefix(
+    node: Line | Block,
+    pre: string
+): Line | Block {
+    switch(node.kind) {
+        case "line":
+            return line(pre + node.text);
+        case "block":
+            return block(
+                pre + node.open,
+                node.body,
+                node.close
+            )
+    }
 }
 //#endregion
