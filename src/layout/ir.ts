@@ -7,7 +7,7 @@ export type Block = {
     kind: "block"; 
     open: string; 
     body: Node[];
-    close: string;
+    close?: string;
 }
 
 export type Seq = {

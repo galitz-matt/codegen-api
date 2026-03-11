@@ -12,7 +12,7 @@ function _render(doc: Document, depth: number): string {
             return [
                 indent(depth) + doc.open,
                 ...doc.body.map(n => _render(n, depth + 1)),
-                indent(depth) + doc.close
+                ...(doc.close ? [indent(depth) + doc.close] : [])
             ].join("\n");
         case "seq":
             return doc.nodes.map(n => _render(n, depth)).join("\n");
@@ -20,5 +20,5 @@ function _render(doc: Document, depth: number): string {
 }
 
 function indent(indent: number): string {
-    return "\t".repeat(indent);
+    return "    ".repeat(indent);
 }
