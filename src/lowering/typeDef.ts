@@ -1,5 +1,5 @@
 import { LiteralType, ObjectType, PropExpr, RefType, TypeExpr } from "../fragments/types";
-import { block, braceBlock, line, prefix, seq } from "../layout/factories";
+import { block, line, prefix, seq } from "../layout/factories";
 import { Node } from "../layout/ir";
 
 export function typeDef(
