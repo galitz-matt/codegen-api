@@ -83,7 +83,8 @@ export type ObjectType = {
 
 export type UnionType = {
     kind: "union";
-    members: (RefType | ObjectType)[];
+    members: (LiteralType | RefType | ObjectType)[];
+    newline?: boolean;
 }
 
 export type TypeExpr =
