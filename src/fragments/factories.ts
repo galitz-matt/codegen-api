@@ -9,12 +9,12 @@ import {
     OptionalParam,
     DefaultParam,
     StdParam,
-    Ref,
-    Object,
-    PropExpr,
-    Union,
-    TypeExpr,
-    Literal,
+    RefType,
+    ObjectType,
+    Prop,
+    UnionType,
+    Type,
+    LiteralType,
 } from "./types"
 
 //#region branches
@@ -127,7 +127,7 @@ export function fnSig(props: {
 //#endregion
 
 //#region type
-export function prop(key: string, value: TypeExpr, opt?: boolean): PropExpr {
+export function prop(key: string, value: Type, opt?: boolean): Prop {
     return {
         kind: "prop",
         name: key,
@@ -136,31 +136,36 @@ export function prop(key: string, value: TypeExpr, opt?: boolean): PropExpr {
     }
 }
 
-export function literal(value: string | number | boolean | null): Literal {
+export function literalType(value: string | number | boolean | null): LiteralType {
     return {
         kind: "literal",
         value
     }
 }
 
-export function ref(name: string): Ref {
+export function refType(name: string): RefType {
     return {
         kind: "ref",
         name
     }
 }
 
-export function object(...props: PropExpr[]): Object {
+export function objectType(...props: Prop[]): ObjectType {
     return {
         kind: "object",
         props
     }
 }
 
-export function union(...unions: (Ref | Object)[]): Union {
+export function unionType(...unions: (RefType | ObjectType)[]): UnionType {
     return {
         kind: "union",
         members: unions
     }
 }
+//#endregion
+
+//#region Expr
+
+
 //#endregion

@@ -66,36 +66,36 @@ export type Branch =
 //#endregion
 
 //#region type
-export type Ref = {
+export type RefType = {
     kind: "ref";
     name: string;
 }
 
-export type Literal = {
+export type LiteralType = {
     kind: "literal";
     value: string | number | boolean | null;
 }
 
-export type Object = {
+export type ObjectType = {
     kind: "object";
-    props: PropExpr[];
+    props: Prop[];
 }
 
-export type Union = {
+export type UnionType = {
     kind: "union";
-    members: (Literal | Ref | Object)[];
+    members: (LiteralType | RefType | ObjectType)[];
 }
 
-export type TypeExpr =
-    | Literal
-    | Ref
-    | Object
-    | Union
+export type Type =
+    | LiteralType
+    | RefType
+    | ObjectType
+    | UnionType
 
-export type PropExpr = {
+export type Prop = {
     kind: "prop";
     name: string;
-    rhs: TypeExpr;
+    rhs: Type;
     optional?: boolean
 }
 //#endregion
