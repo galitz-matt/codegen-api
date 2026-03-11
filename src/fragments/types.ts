@@ -1,4 +1,4 @@
-import { Node } from "../layout/ir"
+import { Block, Line, Node } from "../layout/ir"
 
 //#region params
 export type StdParam = {
@@ -37,7 +37,9 @@ export type Param =
     | RestParam
 //#endregion
 
+//#region fn
 export type FnSignature = string
+//#endregion
 
 //#region branches
 export type WhenBranch = {
@@ -45,17 +47,55 @@ export type WhenBranch = {
     condition: string;
     body: Node[];
 }
+
 export type CaseBranch = {
     kind: "case";
     value: string;
     body: Node[];
 }
+
 export type DefaultBranch = {
     kind: "default";
     body: Node[];
 }
+
 export type Branch =
     | WhenBranch
     | CaseBranch
     | DefaultBranch
+//#endregion
+
+//#region type
+export type RefType = {
+    kind: "ref";
+    name: string;
+}
+
+export type LiteralType = {
+    kind: "literal";
+    value: string | number | boolean | null;
+}
+
+export type ObjectType = {
+    kind: "object";
+    props: PropExpr[];
+}
+
+export type UnionType = {
+    kind: "union";
+    members: (RefType | ObjectType)[];
+}
+
+export type TypeExpr =
+    | LiteralType
+    | RefType
+    | ObjectType
+    | UnionType
+
+export type PropExpr = {
+    kind: "prop";
+    name: string;
+    rhs: TypeExpr;
+    optional?: boolean
+}
 //#endregion

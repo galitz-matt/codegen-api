@@ -9,6 +9,12 @@ import {
     OptionalParam,
     DefaultParam,
     StdParam,
+    RefType,
+    ObjectType,
+    PropExpr,
+    UnionType,
+    TypeExpr,
+    LiteralType,
 } from "./types"
 
 //#region branches
@@ -36,7 +42,7 @@ export function otherwise(...body: Node[]): DefaultBranch {
 }
 //#endregion
 
-//#region params
+//#region fn
 export function params(
     ...paramList: Param[]
 ): Param[] {
@@ -88,20 +94,20 @@ export function restParam(
         type
     };
 }
-//#endregion
 
-
-export function fnSignature(props: {
+export function fnSig(props: {
     name: string,
     params?: Param[],
     returnType?: string,
     isExport?: boolean,
     isAsync?: boolean,
+    generics?: string[],
     newlineDelimiter?: boolean
 }): FnSignature {
     const exportPart = props.isExport ? "export " : "";
     const asyncPart = props.isAsync ? "async " : "";
     const returnTypePart = props.returnType ?? "void";
+    const genericsPart = props.generics ? `<${props.generics.join(", ")}>` : "";
     const delimiter = props.newlineDelimiter ? ",\n" : ", ";
     const paramsPart = props.params?.map(p => {
         const builder = [];
@@ -116,5 +122,45 @@ export function fnSignature(props: {
         return builder.join("");
     }).join(delimiter);
 
-    return `${exportPart}${asyncPart}function ${props.name}(${paramsPart}): ${returnTypePart}`;
+    return `${exportPart}${asyncPart}function ${props.name}${genericsPart}(${paramsPart}): ${returnTypePart}`;
 }
+//#endregion
+
+//#region type
+export function prop(key: string, value: TypeExpr, opt?: boolean): PropExpr {
+    return {
+        kind: "prop",
+        name: key,
+        rhs: value,
+        optional: opt
+    }
+}
+
+export function literalType(value: string | number | boolean | null): LiteralType {
+    return {
+        kind: "literal",
+        value
+    }
+}
+
+export function refType(name: string): RefType {
+    return {
+        kind: "ref",
+        name
+    }
+}
+
+export function objectType(...props: PropExpr[]): ObjectType {
+    return {
+        kind: "object",
+        props
+    }
+}
+
+export function unionType(...unions: (RefType | ObjectType)[]): UnionType {
+    return {
+        kind: "union",
+        members: unions
+    }
+}
+//#endregion
