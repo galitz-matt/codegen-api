@@ -3,7 +3,7 @@ import { Line, Node, Block, Seq } from "./ir";
 export function block(
     open: string,
     body: Node[],
-    close: string
+    close?: string
 ): Block {
     return {
         kind: "block",
@@ -40,9 +40,9 @@ export function braceBlock(
 }
 
 export function prefix(
-    node: Line | Block,
-    pre: string
-): Line | Block {
+    pre: string,
+    node: Node
+): Node {
     switch(node.kind) {
         case "line":
             return line(pre + node.text);
@@ -52,6 +52,8 @@ export function prefix(
                 node.body,
                 node.close
             )
+        case "seq":
+            return node;
     }
 }
 //#endregion
