@@ -9,12 +9,12 @@ import {
     OptionalParam,
     DefaultParam,
     StdParam,
-    RefType,
-    ObjectType,
+    Ref,
+    Object,
     PropExpr,
-    UnionType,
+    Union,
     TypeExpr,
-    LiteralType,
+    Literal,
 } from "./types"
 
 //#region branches
@@ -136,28 +136,28 @@ export function prop(key: string, value: TypeExpr, opt?: boolean): PropExpr {
     }
 }
 
-export function literalType(value: string | number | boolean | null): LiteralType {
+export function literal(value: string | number | boolean | null): Literal {
     return {
         kind: "literal",
         value
     }
 }
 
-export function refType(name: string): RefType {
+export function ref(name: string): Ref {
     return {
         kind: "ref",
         name
     }
 }
 
-export function objectType(...props: PropExpr[]): ObjectType {
+export function object(...props: PropExpr[]): Object {
     return {
         kind: "object",
         props
     }
 }
 
-export function unionType(...unions: (RefType | ObjectType)[]): UnionType {
+export function union(...unions: (Ref | Object)[]): Union {
     return {
         kind: "union",
         members: unions

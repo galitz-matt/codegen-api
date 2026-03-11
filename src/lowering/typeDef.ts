@@ -1,4 +1,4 @@
-import { LiteralType, ObjectType, PropExpr, RefType, TypeExpr } from "../fragments/types";
+import { Literal, Object, PropExpr, Ref, TypeExpr } from "../fragments/types";
 import { block, line, prefix, seq } from "../layout/factories";
 import { Node } from "../layout/ir";
 
@@ -57,7 +57,7 @@ function lowerProp(prop: PropExpr): Node {
     }
 }
 
-function lowerType(type: LiteralType | RefType | ObjectType): Node {
+function lowerType(type: Literal | Ref | Object): Node {
     switch (type.kind) {
         case "literal":
             if (typeof type.value === "string")
