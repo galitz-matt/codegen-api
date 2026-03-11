@@ -1,10 +1,10 @@
-import { Literal, Object, PropExpr, Ref, TypeExpr } from "../fragments/types";
+import { LiteralType, ObjectType, Prop, RefType, Type } from "../fragments/types";
 import { block, line, prefix, seq } from "../layout/factories";
 import { Node } from "../layout/ir";
 
 export function typeDef(
     name: string,
-    rhs: TypeExpr,
+    rhs: Type,
     expose = false
 ): Node {
     const exportSeg = expose ? "export " : "";
@@ -32,7 +32,7 @@ export function typeDef(
     }
 }
 
-function lowerProp(prop: PropExpr): Node {
+function lowerProp(prop: Prop): Node {
     const optSeg = prop.optional ? "?" : "";
     const lhs = `${prop.name}${optSeg}`
 
@@ -57,7 +57,7 @@ function lowerProp(prop: PropExpr): Node {
     }
 }
 
-function lowerType(type: Literal | Ref | Object): Node {
+function lowerType(type: LiteralType | RefType | ObjectType): Node {
     switch (type.kind) {
         case "literal":
             if (typeof type.value === "string")
