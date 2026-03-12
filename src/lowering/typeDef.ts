@@ -1,4 +1,4 @@
-import { LiteralType, ObjectType, Prop, RefType, Type } from "../fragments/types";
+import { LiteralType, ObjectType, ObjectTypeProp, RefType, Type } from "../fragments/types";
 import { block, line, prefix, seq } from "../layout/factories";
 import { Node } from "../layout/ir";
 
@@ -12,12 +12,9 @@ export function typeDef(
 
     switch (rhs.kind) {
         case "literal":
-            if (typeof rhs.value === "string") {
-                return line(`${lhs} = "${rhs.value}"`)
-            }
-            return line(`${lhs} = ${rhs.value}`)
+            return line(`${lhs} = ${rhs.literal}`)
         case "ref":
-            return line(`${lhs} = ${rhs.name}`);
+            return line(`${lhs} = ${rhs.ref}`);
         case "object":
             return block(
                 `${lhs} = {`,
@@ -32,27 +29,25 @@ export function typeDef(
     }
 }
 
-function lowerProp(prop: Prop): Node {
+function lowerProp(prop: ObjectTypeProp): Node {
     const optSeg = prop.optional ? "?" : "";
-    const lhs = `${prop.name}${optSeg}`
+    const lhs = `${prop.key}${optSeg}`
 
-    switch (prop.rhs.kind) {
+    switch (prop.value.kind) {
         case "literal":
-            if (typeof prop.rhs.value === "string")
-                return line(`${lhs}: "${prop.rhs.value}"`);
-            return line(`${lhs}: ${prop.rhs.value}`)
+            return line(`${lhs}: ${prop.value.literal}`)
         case "ref":
-            return line(`${lhs}: ${prop.rhs.name};`);
+            return line(`${lhs}: ${prop.value.ref};`);
         case "object":
             return block(
                 `${lhs}: {`,
-                prop.rhs.props.map(p => lowerProp(p)),
+                prop.value.props.map(p => lowerProp(p)),
                 "};"
             )
         case "union":
             return block(
                 `${lhs}:`,
-                prop.rhs.members.map(m => prefix("| ", lowerType(m)))
+                prop.value.members.map(m => prefix("| ", lowerType(m)))
             )
     }
 }
@@ -60,11 +55,9 @@ function lowerProp(prop: Prop): Node {
 function lowerType(type: LiteralType | RefType | ObjectType): Node {
     switch (type.kind) {
         case "literal":
-            if (typeof type.value === "string")
-                return line(`"${type.value}"`)
-            return line(`${type.value}`)
+            return line(`${type.literal}`)
         case "ref":
-            return line(type.name);
+            return line(type.ref);
         case "object":
             return block(
                 "{",

@@ -11,10 +11,15 @@ import {
     StdParam,
     RefType,
     ObjectType,
-    Prop,
+    ObjectTypeProp,
     UnionType,
     Type,
     LiteralType,
+    LiteralExpr,
+    RefExpr,
+    ObjectExprProp,
+    ObjectExpr,
+    Expr,
 } from "./types"
 
 //#region branches
@@ -127,30 +132,21 @@ export function fnSig(props: {
 //#endregion
 
 //#region type
-export function prop(key: string, value: Type, opt?: boolean): Prop {
-    return {
-        kind: "prop",
-        name: key,
-        rhs: value,
-        optional: opt
-    }
-}
-
-export function literalType(value: string | number | boolean | null): LiteralType {
+export function literalType(literal: string | number | boolean | null): LiteralType {
     return {
         kind: "literal",
-        value
+        literal: typeof literal === "string" ? `"${literal}"` : literal
     }
 }
 
-export function refType(name: string): RefType {
+export function refType(ref: string): RefType {
     return {
         kind: "ref",
-        name
+        ref: ref
     }
 }
 
-export function objectType(...props: Prop[]): ObjectType {
+export function objectType(...props: ObjectTypeProp[]): ObjectType {
     return {
         kind: "object",
         props
@@ -163,9 +159,43 @@ export function unionType(...unions: (RefType | ObjectType)[]): UnionType {
         members: unions
     }
 }
+
+export function typeProp(key: string, value: Type, opt?: boolean): ObjectTypeProp {
+    return {
+        key: key,
+        value: value,
+        optional: opt
+    }
+}
+
 //#endregion
 
 //#region Expr
+export function literalExpr(literal: string | number | boolean | null): LiteralExpr {
+    return {
+        kind: "literal",
+        literal: typeof literal === "string" ? `"${literal}"` : literal
+    }
+}
 
+export function refExpr(ref: string): RefExpr {
+    return {
+        kind: "ref",
+        ref
+    }
+}
 
+export function objectExpr(...props: ObjectExprProp[]): ObjectExpr {
+    return {
+        kind: "object",
+        props
+    }
+}
+
+export function exprProp(key: string, value: Expr): ObjectExprProp {
+    return {
+        key,
+        value
+    }
+}
 //#endregion
