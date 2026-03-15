@@ -38,7 +38,17 @@ export type Param =
 //#endregion
 
 //#region fn
-export type FnSignature = string
+export type FnSignature = {
+    name: string,
+    params?: Param[],
+    returnType?: LiteralType | RefType,
+    export?: boolean,
+    async?: boolean,
+    generics?: string[],
+    formatOpts?: {
+        newlineParams: boolean
+    }
+}
 //#endregion
 
 //#region branches

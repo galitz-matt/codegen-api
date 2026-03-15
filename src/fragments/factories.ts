@@ -104,30 +104,22 @@ export function fnSig(props: {
     name: string,
     params?: Param[],
     returnType?: LiteralType | RefType,
-    isExport?: boolean,
-    isAsync?: boolean,
+    export?: boolean,
+    async?: boolean,
     generics?: string[],
-    newlineDelimiter?: boolean
+    formatOpts?: {
+        newlineParams: boolean
+    }
 }): FnSignature {
-    const exportPart = props.isExport ? "export " : "";
-    const asyncPart = props.isAsync ? "async " : "";
-    const returnTypePart = (props.returnType?.kind === "ref" ? props.returnType.ref : props.returnType?.literal) ?? "void";
-    const genericsPart = props.generics ? `<${props.generics.join(", ")}>` : "";
-    const delimiter = props.newlineDelimiter ? ",\n" : ", ";
-    const paramsPart = props.params?.map(p => {
-        const builder = [];
-
-        if (p.kind === "rest") builder.push("...");
-        builder.push(p.name);
-        if (p.kind === "optional") builder.push("?");
-        builder.push(": ");
-        builder.push(p.type.kind === "literal" ? p.type.literal : p.type.ref);
-        if (p.kind === "default") builder.push(` = ${p.default}`)
-        
-        return builder.join("");
-    }).join(delimiter);
-
-    return `${exportPart}${asyncPart}function ${props.name}${genericsPart}(${paramsPart}): ${returnTypePart}`;
+    return {
+        name: props.name,
+        params: props.params,
+        returnType: props.returnType ?? refType("void"),
+        export: props.export ?? false,
+        async: props.async ?? false,
+        generics: props.generics,
+        formatOpts: props.formatOpts
+    }
 }
 //#endregion
 
