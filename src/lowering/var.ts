@@ -68,8 +68,6 @@ function getTypeAnnotation(type?: LiteralType | RefType): string {
     if (!type) return "";
     switch (type.kind) {
         case "literal":
-            if (typeof type.literal === "string")
-                return `: "${type.literal}"`;
             return `: ${type.literal}`;
         case "ref":
             return `: ${type.ref}`;
