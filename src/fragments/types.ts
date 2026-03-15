@@ -4,26 +4,26 @@ import { Block, Line, Node } from "../layout/ir"
 export type StdParam = {
     kind: "std",
     name: string,
-    type: string
+    type: LiteralType | RefType
 }
 
 export type DefaultParam = {
     kind: "default",
     name: string,
-    type: string,
+    type: LiteralType | RefType,
     default: string
 }
 
 export type OptionalParam = {
     kind: "optional",
     name: string,
-    type: string
+    type: LiteralType | RefType
 }
 
 export type RestParam = {
     kind: "rest",
     name: string,
-    type: string
+    type: LiteralType | RefType
 }
 
 export type RequiredParam =

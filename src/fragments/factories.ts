@@ -56,7 +56,7 @@ export function params(
 
 export function stdParam(
     name: string,
-    type: string
+    type: LiteralType | RefType
 ): StdParam {
     return {
         kind: "std",
@@ -67,7 +67,7 @@ export function stdParam(
 
 export function defaultParam(
     name: string,
-    type: string,
+    type: LiteralType | RefType,
     def: string,
 ): DefaultParam {
     return {
@@ -80,7 +80,7 @@ export function defaultParam(
 
 export function optionalParam(
     name: string,
-    type: string,
+    type: LiteralType | RefType,
 ): OptionalParam {
     return {
         kind: "optional",
@@ -91,7 +91,7 @@ export function optionalParam(
 
 export function restParam(
     name: string,
-    type: string
+    type: LiteralType | RefType
 ): RestParam {
     return {
         kind: "rest",
@@ -121,7 +121,7 @@ export function fnSig(props: {
         builder.push(p.name);
         if (p.kind === "optional") builder.push("?");
         builder.push(": ");
-        builder.push(p.type);
+        builder.push(p.type.kind === "literal" ? p.type.literal : p.type.ref);
         if (p.kind === "default") builder.push(` = ${p.default}`)
         
         return builder.join("");
