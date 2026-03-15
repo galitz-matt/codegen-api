@@ -103,7 +103,7 @@ export function restParam(
 export function fnSig(props: {
     name: string,
     params?: Param[],
-    returnType?: string,
+    returnType?: LiteralType | RefType,
     isExport?: boolean,
     isAsync?: boolean,
     generics?: string[],
@@ -111,7 +111,7 @@ export function fnSig(props: {
 }): FnSignature {
     const exportPart = props.isExport ? "export " : "";
     const asyncPart = props.isAsync ? "async " : "";
-    const returnTypePart = props.returnType ?? "void";
+    const returnTypePart = (props.returnType?.kind === "ref" ? props.returnType.ref : props.returnType?.literal) ?? "void";
     const genericsPart = props.generics ? `<${props.generics.join(", ")}>` : "";
     const delimiter = props.newlineDelimiter ? ",\n" : ", ";
     const paramsPart = props.params?.map(p => {
