@@ -118,7 +118,6 @@ export function fnSig(props: {
         export: props.export ?? false,
         async: props.async ?? false,
         generics: props.generics,
-        formatOpts: props.formatOpts
     }
 }
 //#endregion

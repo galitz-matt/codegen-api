@@ -45,9 +45,6 @@ export type FnSignature = {
     export?: boolean,
     async?: boolean,
     generics?: string[],
-    formatOpts?: {
-        newlineParams: boolean
-    }
 }
 //#endregion
 

@@ -18,7 +18,7 @@ function buildFnSig(sig: FnSignature): string {
     const exportSeg = getExportSegment(sig.export);
     const asyncSeg = getAsyncSegment(sig.async);
     const genericsSeg = buildGenericsSegment(sig.generics);
-    const paramsSeg = buildParamsSegment(sig.params, sig.formatOpts?.newlineParams);
+    const paramsSeg = buildParamsSegment(sig.params);
 
     return `${exportSeg}${asyncSeg}${fnName}${genericsSeg}(${paramsSeg}): ${returnTypeSeg}`
 }
@@ -40,7 +40,7 @@ function buildGenericsSegment(generics: string[] | undefined): string {
     return `<${generics.join(",")}>`
 }
 
-function buildParamsSegment(params: Param[] | undefined, newlineParams?: boolean): string {
+function buildParamsSegment(params: Param[] | undefined): string {
     if (!params) return "";
 
     const paramList = [];
@@ -57,7 +57,5 @@ function buildParamsSegment(params: Param[] | undefined, newlineParams?: boolean
                 paramList.push(`...${p.name}: ${getTypeSegment(p.type)}`);
         }
     }
-
-    const delimiter = newlineParams ? "\n" : ", ";
-    return paramList.join(delimiter);
+    return paramList.join(", ")
 }
