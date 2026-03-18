@@ -20,7 +20,7 @@ function buildFnSig(sig: FnSignature): string {
     const genericsSeg = buildGenericsSegment(sig.generics);
     const paramsSeg = buildParamsSegment(sig.params);
 
-    return `${exportSeg}${asyncSeg}${fnName}${genericsSeg}(${paramsSeg}): ${returnTypeSeg}`
+    return `${exportSeg}${asyncSeg}function ${fnName}${genericsSeg}(${paramsSeg}): ${returnTypeSeg}`
 }
 
 function getTypeSegment(type: LiteralType | RefType | undefined): string {
