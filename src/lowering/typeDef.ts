@@ -23,7 +23,7 @@ export function typeDef(
         case "union":
             return seq(
                 line(`${lhs} =`),
-                ...rhs.members.map(m => lowerType(m))
+                ...rhs.members.map(m => prefix("| ", lowerType(m)))
             );
     }
 }
