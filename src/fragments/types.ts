@@ -78,12 +78,12 @@ export type Branch =
 //#region type
 export type RefType = {
     kind: "ref";
-    ref: string;
+    type: string;
 }
 
 export type LiteralType = {
     kind: "literal";
-    literal: string | number | boolean | null;
+    type: string | number | boolean | null;
 }
 
 export type ObjectType = {
@@ -112,12 +112,12 @@ export type ObjectTypeProp = {
 //#region expr
 export type LiteralExpr = {
     kind: "literal";
-    literal: string | number | boolean | null;
+    expr: string | number | boolean | null;
 }
 
 export type RefExpr = {
     kind: "ref";
-    ref: string;
+    expr: string;
 }
 
 export type ObjectExpr = {

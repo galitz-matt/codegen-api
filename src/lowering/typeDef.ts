@@ -12,9 +12,8 @@ export function typeDef(
 
     switch (rhs.kind) {
         case "literal":
-            return line(`${lhs} = ${rhs.literal}`)
         case "ref":
-            return line(`${lhs} = ${rhs.ref}`);
+            return line(`${lhs} = ${rhs.type}`);
         case "object":
             return block(
                 `${lhs} = {`,
@@ -35,9 +34,8 @@ function lowerProp(prop: ObjectTypeProp): Node {
 
     switch (prop.value.kind) {
         case "literal":
-            return line(`${lhs}: ${prop.value.literal}`)
         case "ref":
-            return line(`${lhs}: ${prop.value.ref};`);
+            return line(`${lhs}: ${prop.value.type};`);
         case "object":
             return block(
                 `${lhs}: {`,
@@ -55,9 +53,8 @@ function lowerProp(prop: ObjectTypeProp): Node {
 function lowerType(type: LiteralType | RefType | ObjectType): Node {
     switch (type.kind) {
         case "literal":
-            return line(`${type.literal}`)
         case "ref":
-            return line(type.ref);
+            return line(`${type.type}`);
         case "object":
             return block(
                 "{",

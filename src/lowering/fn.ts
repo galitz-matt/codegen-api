@@ -24,7 +24,7 @@ function buildFnSig(sig: FnSignature): string {
 }
 
 function getTypeSegment(type: LiteralType | RefType | undefined): string {
-    return (type?.kind === "literal" ? `${type?.literal}` : type?.ref) ?? "void";
+    return `${type?.type ?? "void"}`;
 }
 
 function getExportSegment(isExport: boolean | undefined): string {

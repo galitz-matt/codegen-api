@@ -127,14 +127,14 @@ export function fnSig(props: {
 export function literalType(literal: string | number | boolean | null): LiteralType {
     return {
         kind: "literal",
-        literal: typeof literal === "string" ? `"${literal}"` : literal
+        type: typeof literal === "string" ? `"${literal}"` : literal
     }
 }
 
 export function refType(ref: string): RefType {
     return {
         kind: "ref",
-        ref: ref
+        type: ref
     }
 }
 
@@ -166,14 +166,14 @@ export function typeProp(key: string, value: Type, opt?: boolean): ObjectTypePro
 export function literalExpr(literal: string | number | boolean | null): LiteralExpr {
     return {
         kind: "literal",
-        literal: typeof literal === "string" ? `"${literal}"` : literal
+        expr: typeof literal === "string" ? `"${literal}"` : literal
     }
 }
 
 export function refExpr(ref: string): RefExpr {
     return {
         kind: "ref",
-        ref
+        expr: ref
     }
 }
 

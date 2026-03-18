@@ -37,9 +37,8 @@ function variable(
     const lhs = `${dec} ${name}${getTypeAnnotation(type)}`
     switch (expr.kind) {
         case "literal":
-            return line(`${lhs} = ${expr.literal}`);
         case "ref":
-            return line(`${lhs} = ${expr.ref}`);
+            return line(`${lhs} = ${expr.expr}`);
         case "object":
             return block(
                 `${lhs} = {`,
@@ -52,9 +51,8 @@ function variable(
 function lowerProp(prop: ObjectExprProp): Node {
     switch(prop.value.kind) {
         case "literal":
-            return line(`${prop.key}: ${prop.value.literal},`);
         case "ref":
-            return line(`${prop.key}: ${prop.value.ref},`);
+            return line(`${prop.key}: ${prop.value.expr},`);
         case "object":
             return block(
                 `${prop.key}: {`,
@@ -66,10 +64,5 @@ function lowerProp(prop: ObjectExprProp): Node {
 
 function getTypeAnnotation(type?: LiteralType | RefType): string {
     if (!type) return "";
-    switch (type.kind) {
-        case "literal":
-            return `: ${type.literal}`;
-        case "ref":
-            return `: ${type.ref}`;
-    }
+    return `: ${type.type}`;
 }
