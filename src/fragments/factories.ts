@@ -68,7 +68,7 @@ export function stdParam(
 export function defaultParam(
     name: string,
     type: LiteralType | RefType,
-    def: string,
+    def: LiteralExpr | RefExpr,
 ): DefaultParam {
     return {
         kind: "default",

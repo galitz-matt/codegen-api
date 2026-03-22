@@ -11,7 +11,7 @@ export type DefaultParam = {
     kind: "default",
     name: string,
     type: LiteralType | RefType,
-    default: string
+    default: LiteralExpr | RefExpr
 }
 
 export type OptionalParam = {
