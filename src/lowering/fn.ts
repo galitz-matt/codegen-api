@@ -2,7 +2,7 @@ import { Node } from "../layout/ir";
 import { FnSignature, LiteralType, Param, RefType } from "../fragments/types";
 import { block, braceBlock, line, seq } from "../layout/factories";
 import { render } from "../render";
-import { defaultParam, params, refType, stdParam } from "../fragments/factories";
+import { defaultParam, literalExpr, params, refType, stdParam } from "../fragments/factories";
 
 export function fn(
     signature: FnSignature,
@@ -76,7 +76,7 @@ function buildParamsBody(params: Param[] | undefined): Node[] {
                 paramLines.push(line(`${p.name}: ${getTypeSegment(p.type)}${comma}`));
                 break;
             case "default":
-                paramLines.push(line(`${p.name}: ${getTypeSegment(p.type)} = ${p.default}${comma}`));
+                paramLines.push(line(`${p.name}: ${getTypeSegment(p.type)} = ${p.default.expr}${comma}`));
                 break;
             case "optional":
                 paramLines.push(line(`${p.name}?: ${getTypeSegment(p.type)}${comma}`));
@@ -100,7 +100,7 @@ function buildParamsSegment(params: Param[] | undefined): string {
                 paramList.push(`${p.name}: ${getTypeSegment(p.type)}`);
                 break;
             case "default":
-                paramList.push(`${p.name}: ${getTypeSegment(p.type)} = ${p.default}`);
+                paramList.push(`${p.name}: ${getTypeSegment(p.type)} = ${p.default.expr}`);
                 break;
             case "optional":
                 paramList.push(`${p.name}?: ${getTypeSegment(p.type)}`);
@@ -120,10 +120,10 @@ console.log(render(
         name: "myFunction",
         params: params(
             stdParam("p1", refType("string")),
-            defaultParam("def", refType("string"), "asdf")
+            defaultParam("def", refType("boolean"), literalExpr(true))
         ),
         newline: true,
     },
-        line(`console.log("abc")`)
+        line(`console.log("abc");`)
     )
 ))
